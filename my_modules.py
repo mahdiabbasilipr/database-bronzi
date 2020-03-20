@@ -1,6 +1,8 @@
 import openpyxl
 
 
+# i wan't to write a database on excel file
+
 # function goto get input from user and return that in string that can change to dict by eval()
 def get_specifications():
     # get Specifications of new product and append them look like a dictonary
@@ -67,7 +69,7 @@ def get_specifications():
 
         else:
             break
-
+    # print data for get user approval
     price_for_customer = price + ((price * 30) / 100)
     print(
         "\nyou\'r new product is :\nname = %s \nweight = %s \nhight = %s \nwidth = %s \nprice = %s\nprice customer = %s" % (
@@ -76,8 +78,9 @@ def get_specifications():
     )
     user_approval = input("\nare all of the information that enter ,True??:(y/n) ")
     if user_approval == 'n':  # User approval
-        final_dict = get_specifications()
+        final_dict = get_specifications()  # run again
     else:
+        # make final dict
         final_dict = {
             'name': name,
             'code': code,
@@ -92,9 +95,10 @@ def get_specifications():
     return final_dict
 
 
+# get list data is a function to make a list of dictionary data
 def get_list_data(addres_of_excel):
-    wb = openpyxl.load_workbook(filename=addres_of_excel)
-    sheet_range = wb.get_sheet_by_name('sheet1')
+    wb = openpyxl.load_workbook(filename=addres_of_excel)  # make work book
+    sheet_range = wb.get_sheet_by_name('sheet1')  # get sheet1 to calc max row
     max_row = sheet_range.max_row
     list_data = []
     for i in range(2, max_row + 1):
@@ -114,7 +118,8 @@ def get_list_data(addres_of_excel):
     return list_data
 
 
-def write_excel(addres_of_fiel, list_data):
+# write excel is function that i use for write or over write excel
+def write_excel(addres_of_file, list_data):
     wb = openpyxl.Workbook()
     ws1 = wb.create_sheet('sheet1')
 
@@ -143,7 +148,7 @@ def write_excel(addres_of_fiel, list_data):
 
         temp = int(temp)
 
-    wb.save(filename='e1.xlsx')
+    wb.save(filename=addres_of_file)
 
 
 def append_new_data(addres_of_file):
@@ -152,7 +157,3 @@ def append_new_data(addres_of_file):
     list_data.append(new_data)
     write_excel(addres_of_file, list_data)
 
-
-# for i in range (8):
-#     append_new_data('e1.xlsx')
-# def append_new_data():
