@@ -1,5 +1,5 @@
 import openpyxl
-
+from product_class import Product
 
 # i wan't to write a database on excel file
 
@@ -70,30 +70,19 @@ def get_specifications():
         else:
             break
     # print data for get user approval
-    price_for_customer = price + ((price * 30) / 100)
     print(
-        "\nyou\'r new product is :\nname = %s \nweight = %s \nhight = %s \nwidth = %s \nprice = %s\nprice customer = %s" % (
-            name, weight, hight, width, price, price_for_customer
+        "\nyou\'r new product is :\nname = %s \nweight = %s \nhight = %s \nwidth = %s \nprice = %s" % (
+            name, weight, hight, width, price
         )
     )
     user_approval = input("\nare all of the information that enter ,True??:(y/n) ")
     if user_approval == 'n':  # User approval
         final_dict = get_specifications()  # run again
     else:
-        # make final dict
-        final_dict = {
-            'name': name,
-            'code': code,
-            'weight': weight,
-            'hight': hight,
-            'width': width,
-            'price': price,
-            'price_weight': price_of_bronze * weight,
-            'price_for_customer': price_for_customer
-        }
+        # make product object
+        new_product = Product(name, code, weight, hight, width, price)
 
-    return final_dict
-
+    return new_product.get_dict_data()
 
 # get list data is a function to make a list of dictionary data
 def get_list_data(addres_of_excel):
@@ -110,7 +99,6 @@ def get_list_data(addres_of_excel):
             'hight': sheet_range['D' + i].value,
             'width': sheet_range['E' + i].value,
             'price': sheet_range['F' + i].value,
-            'price_weight': sheet_range['G' + i].value,
             'price_for_customer': sheet_range['H' + i].value
         }
         list_data.append(new_dict)
@@ -128,9 +116,8 @@ def write_excel(addres_of_file, list_data):
     ws1['C1'] = 'وزن'
     ws1['D1'] = 'قد'
     ws1['E1'] = 'عرض'
-    ws1['F1'] = 'قیمت برای ما علیرضا'
-    ws1['G1'] = 'قیمت برای ما وزن'
-    ws1['H1'] = 'قیمت برای مشتری'
+    ws1['F1'] = 'قیمت برای ما'
+    ws1['G1'] = 'قیمت برای مشتری'
 
     temp = 1
     for item in list_data:
@@ -143,8 +130,7 @@ def write_excel(addres_of_file, list_data):
         ws1['D' + temp] = item['hight']
         ws1['E' + temp] = item['width']
         ws1['F' + temp] = item['price']
-        ws1['G' + temp] = item['price_weight']
-        ws1['H' + temp] = item['price_for_customer']
+        ws1['G' + temp] = item['price_for_customer']
 
         temp = int(temp)
 
@@ -156,4 +142,3 @@ def append_new_data(addres_of_file):
     list_data = get_list_data(addres_of_file)
     list_data.append(new_data)
     write_excel(addres_of_file, list_data)
-
