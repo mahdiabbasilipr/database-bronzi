@@ -1,5 +1,8 @@
 # class of product
 class Product:
+    # price of one kilo bronze in now
+    price_of_bronze = 0
+
     def __init__(self, name, code, weight, hight, width, price):
         self.name = name
         self.code = code
@@ -12,8 +15,7 @@ class Product:
 
     # get price from price of one kilo bronze and the weight of product
     def get_price_weight(self):
-        price_of_bronze = int(input('please give the price of one kilo bronze in now : '))
-        self.real_price = price_of_bronze * self.weight
+        self.real_price = Product.price_of_bronze * self.weight
         price_for_customer = self.real_price + ((self.real_price * 30) / 100)
         self.price_for_customer = price_for_customer
 
@@ -28,4 +30,3 @@ class Product:
             'price_for_customer': self.price_for_customer
         }
         return dict_data
-
